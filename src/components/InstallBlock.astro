@@ -1,46 +1,200 @@
 ---
+const tabs = [
+    { id: "unix", label: "macOS / Linux" },
+    { id: "windows", label: "Windows" },
+    { id: "npm", label: "npm" },
+];
 ---
 
 <section id="install" class="border-t border-border px-6 py-16">
-    <div class="mx-auto max-w-xl text-center">
-        <h2 class="font-heading text-2xl font-bold sm:text-3xl">
+    <div class="mx-auto max-w-xl">
+        <h2 class="text-center font-heading text-2xl font-bold sm:text-3xl">
             Get started
         </h2>
-        <p class="mt-3 text-text-secondary">
+        <p class="mt-3 text-center text-text-secondary">
             Install RemoteClaw in seconds.
         </p>
-        <div class="mt-8 space-y-3">
-            <div class="flex items-center justify-between rounded-lg border border-border bg-bg-surface px-5 py-3 font-mono text-sm">
-                <div>
-                    <span class="text-text-secondary">$</span>
-                    <span class="ml-2 select-all text-text-primary">npm install -g remoteclaw</span>
-                </div>
-                <button
-                    class="copy-btn text-text-secondary transition-colors hover:text-accent-light"
-                    data-text="npm install -g remoteclaw"
-                    type="button"
+
+        <!-- Tab switcher -->
+        <div
+            class="mt-8 flex items-center justify-center gap-1 rounded-lg border border-border bg-bg-surface p-1"
+            role="tablist"
+        >
+            {
+                tabs.map((tab) => (
+                    <button
+                        role="tab"
+                        aria-selected={tab.id === "unix" ? "true" : "false"}
+                        aria-controls={`panel-${tab.id}`}
+                        data-tab={tab.id}
+                        class:list={[
+                            "install-tab rounded-md px-4 py-2 text-sm transition-colors",
+                            tab.id === "unix"
+                                ? "bg-accent/15 text-accent-light"
+                                : "text-text-secondary hover:text-text-primary",
+                        ]}
+                    >
+                        {tab.label}
+                    </button>
+                ))
+            }
+        </div>
+
+        <!-- Tab panels -->
+        <div class="mt-4">
+            <!-- macOS / Linux -->
+            <div id="panel-unix" role="tabpanel" class="install-panel space-y-3">
+                <div
+                    class="flex items-center justify-between rounded-lg border border-border bg-bg-surface px-5 py-3 font-mono text-sm"
                 >
-                    copy
-                </button>
-            </div>
-            <div class="flex items-center justify-between rounded-lg border border-border bg-bg-surface px-5 py-3 font-mono text-sm">
-                <div>
-                    <span class="text-text-secondary">$</span>
-                    <span class="ml-2 select-all text-text-primary">curl -fsSL remoteclaw.org/install.sh | sh</span>
+                    <div>
+                        <span class="text-text-secondary">$</span>
+                        <span class="ml-2 select-all text-text-primary"
+                            >curl -fsSL remoteclaw.sh | sh</span
+                        >
+                    </div>
+                    <button
+                        class="copy-btn shrink-0 text-text-secondary transition-colors hover:text-accent-light"
+                        data-text="curl -fsSL remoteclaw.sh | sh"
+                        type="button"
+                    >
+                        copy
+                    </button>
                 </div>
-                <button
-                    class="copy-btn text-text-secondary transition-colors hover:text-accent-light"
-                    data-text="curl -fsSL remoteclaw.org/install.sh | sh"
-                    type="button"
-                >
-                    copy
-                </button>
+                <p class="text-xs text-text-secondary">
+                    Detects your OS, installs Node if needed, then installs
+                    RemoteClaw globally.
+                </p>
+                <details class="group text-sm">
+                    <summary
+                        class="cursor-pointer text-text-secondary transition-colors hover:text-accent-light"
+                    >
+                        Install without root
+                    </summary>
+                    <div
+                        class="mt-2 flex items-center justify-between rounded-lg border border-border bg-bg-surface px-5 py-3 font-mono text-sm"
+                    >
+                        <div>
+                            <span class="text-text-secondary">$</span>
+                            <span class="ml-2 select-all text-text-primary"
+                                >curl -fsSL remoteclaw.sh | sh -s -- --local</span
+                            >
+                        </div>
+                        <button
+                            class="copy-btn shrink-0 text-text-secondary transition-colors hover:text-accent-light"
+                            data-text="curl -fsSL remoteclaw.sh | sh -s -- --local"
+                            type="button"
+                        >
+                            copy
+                        </button>
+                    </div>
+                    <p class="mt-1 text-xs text-text-secondary">
+                        Installs to <code class="text-text-primary">~/.remoteclaw/bin</code> &mdash;
+                        no sudo required.
+                    </p>
+                </details>
             </div>
+
+            <!-- Windows -->
+            <div
+                id="panel-windows"
+                role="tabpanel"
+                class="install-panel hidden space-y-3"
+            >
+                <div
+                    class="flex items-center justify-between rounded-lg border border-border bg-bg-surface px-5 py-3 font-mono text-sm"
+                >
+                    <div>
+                        <span class="text-text-secondary">&gt;</span>
+                        <span class="ml-2 select-all text-text-primary"
+                            >irm remoteclaw.org/install.ps1 | iex</span
+                        >
+                    </div>
+                    <button
+                        class="copy-btn shrink-0 text-text-secondary transition-colors hover:text-accent-light"
+                        data-text="irm remoteclaw.org/install.ps1 | iex"
+                        type="button"
+                    >
+                        copy
+                    </button>
+                </div>
+                <p class="text-xs text-text-secondary">
+                    Run in PowerShell. Installs Node if needed, then installs
+                    RemoteClaw globally.
+                </p>
+            </div>
+
+            <!-- npm -->
+            <div
+                id="panel-npm"
+                role="tabpanel"
+                class="install-panel hidden space-y-3"
+            >
+                <div
+                    class="flex items-center justify-between rounded-lg border border-border bg-bg-surface px-5 py-3 font-mono text-sm"
+                >
+                    <div>
+                        <span class="text-text-secondary">$</span>
+                        <span class="ml-2 select-all text-text-primary"
+                            >npm install -g remoteclaw</span
+                        >
+                    </div>
+                    <button
+                        class="copy-btn shrink-0 text-text-secondary transition-colors hover:text-accent-light"
+                        data-text="npm install -g remoteclaw"
+                        type="button"
+                    >
+                        copy
+                    </button>
+                </div>
+                <p class="text-xs text-text-secondary">
+                    Requires Node.js 18+. Works on all platforms.
+                </p>
+            </div>
+        </div>
+
+        <!-- Post-install -->
+        <div class="mt-6 text-center text-sm text-text-secondary">
+            Then run:
+            <code class="font-mono text-text-primary">remoteclaw</code>
+            &mdash;
+            <a
+                href="https://docs.remoteclaw.org/getting-started"
+                class="transition-colors hover:text-accent-light"
+            >
+                getting started guide &rarr;
+            </a>
         </div>
     </div>
 </section>
 
 <script>
+    // Tab switching
+    document.querySelectorAll(".install-tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+            const target = (tab as HTMLElement).dataset.tab;
+
+            // Update tab states
+            document.querySelectorAll(".install-tab").forEach((t) => {
+                const isActive = (t as HTMLElement).dataset.tab === target;
+                t.setAttribute("aria-selected", String(isActive));
+                t.classList.toggle("bg-accent/15", isActive);
+                t.classList.toggle("text-accent-light", isActive);
+                t.classList.toggle("text-text-secondary", !isActive);
+                t.classList.toggle("hover:text-text-primary", !isActive);
+            });
+
+            // Update panels
+            document.querySelectorAll(".install-panel").forEach((panel) => {
+                panel.classList.toggle(
+                    "hidden",
+                    panel.id !== `panel-${target}`,
+                );
+            });
+        });
+    });
+
+    // Copy buttons
     document.querySelectorAll(".copy-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
             const text = (btn as HTMLElement).dataset.text;
@@ -51,4 +205,18 @@
             }
         });
     });
+
+    // Auto-detect OS and select tab
+    (() => {
+        const ua = navigator.userAgent;
+        let detected = "unix";
+        if (/Win/.test(ua)) detected = "windows";
+
+        const tab = document.querySelector(
+            `.install-tab[data-tab="${detected}"]`,
+        );
+        if (tab && detected !== "unix") {
+            (tab as HTMLElement).click();
+        }
+    })();
 </script>

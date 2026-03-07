@@ -1,27 +1,142 @@
 ---
+const tabs = [
+    { id: "unix", label: "macOS / Linux" },
+    { id: "windows", label: "Windows" },
+    { id: "npm", label: "npm" },
+];
 ---
 
 <section class="px-6 py-20 text-center sm:py-28 lg:py-36">
     <div class="mx-auto max-w-3xl">
-        <h1 class="font-heading text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
-            Your <span class="font-mono text-accent">~/.<span class="text-accent-light">&lt;agent&gt;</span></span> &mdash; remotely.
+        <h1
+            class="font-heading text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl"
+        >
+            Your <span class="font-mono text-accent"
+                >~/.<span class="text-accent-light">&lt;agent&gt;</span></span
+            > &mdash; remotely.
         </h1>
-        <p class="mx-auto mt-6 max-w-2xl text-lg text-text-secondary sm:text-xl">
-            Self-hosted middleware that connects Claude Code, Gemini CLI,
-            Codex CLI, and OpenCode to 22+ messaging channels.
+        <p
+            class="mx-auto mt-6 max-w-2xl text-lg text-text-secondary sm:text-xl"
+        >
+            Self-hosted middleware that connects Claude Code, Gemini CLI, Codex
+            CLI, and OpenCode to 22+ messaging channels.
         </p>
-        <div class="mt-10 flex flex-col items-center gap-4">
+
+        <!-- Install switcher -->
+        <div class="mx-auto mt-10 max-w-lg">
             <div
-                id="hero-install"
-                class="group relative inline-flex cursor-pointer items-center rounded-lg border border-border bg-bg-surface px-5 py-3 font-mono text-sm transition-colors hover:border-accent/50"
-                role="button"
-                tabindex="0"
+                class="flex items-center justify-center gap-1 rounded-lg border border-border bg-bg-surface p-1"
+                role="tablist"
             >
-                <span class="select-all text-text-primary">npm install -g remoteclaw</span>
-                <span class="ml-3 text-text-secondary transition-colors group-hover:text-accent-light">
-                    copy
-                </span>
+                {
+                    tabs.map((tab) => (
+                        <button
+                            role="tab"
+                            aria-selected={tab.id === "unix" ? "true" : "false"}
+                            aria-controls={`panel-${tab.id}`}
+                            data-tab={tab.id}
+                            class:list={[
+                                "install-tab rounded-md px-4 py-2 text-sm transition-colors",
+                                tab.id === "unix"
+                                    ? "bg-accent/15 text-accent-light"
+                                    : "text-text-secondary hover:text-text-primary",
+                            ]}
+                        >
+                            {tab.label}
+                        </button>
+                    ))
+                }
             </div>
+
+            <div class="mt-4">
+                <!-- macOS / Linux -->
+                <div
+                    id="panel-unix"
+                    role="tabpanel"
+                    class="install-panel space-y-3"
+                >
+                    <div
+                        class="flex items-center justify-between rounded-lg border border-border bg-bg-surface px-5 py-3 font-mono text-sm"
+                    >
+                        <div class="min-w-0">
+                            <span class="text-text-secondary">$</span>
+                            <span class="ml-2 select-all text-text-primary"
+                                >curl -fsSL remoteclaw.sh | sh</span
+                            >
+                        </div>
+                        <button
+                            class="copy-btn ml-3 shrink-0 text-text-secondary transition-colors hover:text-accent-light"
+                            data-text="curl -fsSL remoteclaw.sh | sh"
+                            type="button"
+                        >
+                            copy
+                        </button>
+                    </div>
+                    <p class="text-left text-xs text-text-secondary">
+                        Detects your OS and installs Node if needed. No root
+                        required on macOS.
+                    </p>
+                </div>
+
+                <!-- Windows -->
+                <div
+                    id="panel-windows"
+                    role="tabpanel"
+                    class="install-panel hidden space-y-3"
+                >
+                    <div
+                        class="flex items-center justify-between rounded-lg border border-border bg-bg-surface px-5 py-3 font-mono text-sm"
+                    >
+                        <div class="min-w-0">
+                            <span class="text-text-secondary">&gt;</span>
+                            <span class="ml-2 select-all text-text-primary"
+                                >irm remoteclaw.org/install.ps1 | iex</span
+                            >
+                        </div>
+                        <button
+                            class="copy-btn ml-3 shrink-0 text-text-secondary transition-colors hover:text-accent-light"
+                            data-text="irm remoteclaw.org/install.ps1 | iex"
+                            type="button"
+                        >
+                            copy
+                        </button>
+                    </div>
+                    <p class="text-left text-xs text-text-secondary">
+                        Run in PowerShell. Installs Node if needed.
+                    </p>
+                </div>
+
+                <!-- npm -->
+                <div
+                    id="panel-npm"
+                    role="tabpanel"
+                    class="install-panel hidden space-y-3"
+                >
+                    <div
+                        class="flex items-center justify-between rounded-lg border border-border bg-bg-surface px-5 py-3 font-mono text-sm"
+                    >
+                        <div class="min-w-0">
+                            <span class="text-text-secondary">$</span>
+                            <span class="ml-2 select-all text-text-primary"
+                                >npm install -g remoteclaw</span
+                            >
+                        </div>
+                        <button
+                            class="copy-btn ml-3 shrink-0 text-text-secondary transition-colors hover:text-accent-light"
+                            data-text="npm install -g remoteclaw"
+                            type="button"
+                        >
+                            copy
+                        </button>
+                    </div>
+                    <p class="text-left text-xs text-text-secondary">
+                        Requires Node.js 18+. Works on all platforms.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6">
             <a
                 href="https://docs.remoteclaw.org"
                 class="text-sm text-text-secondary transition-colors hover:text-accent-light"
@@ -33,15 +148,49 @@
 </section>
 
 <script>
-    const el = document.getElementById("hero-install");
-    if (el) {
-        el.addEventListener("click", () => {
-            navigator.clipboard.writeText("npm install -g remoteclaw");
-            const label = el.querySelector("span:last-child");
-            if (label) {
-                label.textContent = "copied!";
-                setTimeout(() => (label.textContent = "copy"), 2000);
+    // Tab switching
+    document.querySelectorAll(".install-tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+            const target = (tab as HTMLElement).dataset.tab;
+
+            document.querySelectorAll(".install-tab").forEach((t) => {
+                const isActive = (t as HTMLElement).dataset.tab === target;
+                t.setAttribute("aria-selected", String(isActive));
+                t.classList.toggle("bg-accent/15", isActive);
+                t.classList.toggle("text-accent-light", isActive);
+                t.classList.toggle("text-text-secondary", !isActive);
+                t.classList.toggle("hover:text-text-primary", !isActive);
+            });
+
+            document.querySelectorAll(".install-panel").forEach((panel) => {
+                panel.classList.toggle(
+                    "hidden",
+                    panel.id !== `panel-${target}`,
+                );
+            });
+        });
+    });
+
+    // Copy buttons
+    document.querySelectorAll(".copy-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const text = (btn as HTMLElement).dataset.text;
+            if (text) {
+                navigator.clipboard.writeText(text);
+                btn.textContent = "copied!";
+                setTimeout(() => (btn.textContent = "copy"), 2000);
             }
         });
-    }
+    });
+
+    // Auto-detect OS
+    (() => {
+        const ua = navigator.userAgent;
+        if (/Win/.test(ua)) {
+            const tab = document.querySelector(
+                '.install-tab[data-tab="windows"]',
+            );
+            if (tab) (tab as HTMLElement).click();
+        }
+    })();
 </script>
