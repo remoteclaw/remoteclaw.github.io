@@ -30,7 +30,6 @@ jobs:
 
             - name: Type check
               run: pnpm check
-              continue-on-error: true
 
             - name: Build
               run: pnpm build
