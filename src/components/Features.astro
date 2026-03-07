@@ -1,0 +1,54 @@
+---
+import { Router, MessageSquare, Settings, Wrench, Layers, Package } from "@lucide/astro";
+
+const features = [
+    {
+        icon: Router,
+        heading: "Four runtimes, one gateway",
+        description: "Claude, Gemini, Codex, OpenCode \u2014 route any CLI agent to any channel.",
+    },
+    {
+        icon: MessageSquare,
+        heading: "22+ channels included",
+        description: "WhatsApp, Telegram, Discord, Slack, Matrix, LINE, and more.",
+    },
+    {
+        icon: Settings,
+        heading: "Your config, unchanged",
+        description: "~/.claude, ~/.gemini \u2014 your skills, agents, and settings travel with you.",
+    },
+    {
+        icon: Wrench,
+        heading: "50 MCP tools built in",
+        description: "Sessions, messaging, cron, device nodes, canvas, browser proxy, TTS.",
+    },
+    {
+        icon: Layers,
+        heading: "Middleware, not platform",
+        description: "No bundled LLM, no vendor lock-in. Agents bring their own capabilities.",
+    },
+    {
+        icon: Package,
+        heading: "One npm install",
+        description: "npm install -g remoteclaw \u2014 or curl remoteclaw.sh | sh.",
+    },
+];
+---
+
+<section class="px-6 py-16">
+    <div class="mx-auto grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+            features.map(({ icon: Icon, heading, description }) => (
+                <div class="rounded-xl border border-border bg-bg-surface p-6">
+                    <Icon class="h-8 w-8 text-accent" />
+                    <h3 class="mt-4 font-heading text-lg font-semibold">
+                        {heading}
+                    </h3>
+                    <p class="mt-2 text-sm leading-relaxed text-text-secondary">
+                        {description}
+                    </p>
+                </div>
+            ))
+        }
+    </div>
+</section>
