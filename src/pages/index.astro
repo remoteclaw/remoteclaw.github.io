@@ -1,13 +1,25 @@
 ---
+import "../styles/global.css";
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Hero from "../components/Hero.astro";
+import Runtimes from "../components/Runtimes.astro";
+import Channels from "../components/Channels.astro";
+import Features from "../components/Features.astro";
+import Architecture from "../components/Architecture.astro";
+import InstallBlock from "../components/InstallBlock.astro";
+import Footer from "../components/Footer.astro";
 ---
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>RemoteClaw</title>
-    </head>
-    <body>
-        <h1>RemoteClaw</h1>
-    </body>
-</html>
+<Base>
+    <Nav />
+    <main>
+        <Hero />
+        <Runtimes />
+        <Channels />
+        <Features />
+        <Architecture />
+        <InstallBlock />
+    </main>
+    <Footer />
+</Base>

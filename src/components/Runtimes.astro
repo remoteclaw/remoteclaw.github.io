@@ -1,0 +1,15 @@
+---
+const runtimes = ["Claude", "Gemini", "Codex", "OpenCode"];
+---
+
+<section class="border-y border-border px-6 py-10">
+    <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-8 text-text-secondary sm:gap-12">
+        {
+            runtimes.map((name) => (
+                <span class="font-heading text-lg font-medium sm:text-xl">
+                    {name}
+                </span>
+            ))
+        }
+    </div>
+</section>

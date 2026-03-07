@@ -1,0 +1,41 @@
+---
+const channels = [
+    "WhatsApp",
+    "Telegram",
+    "Discord",
+    "Slack",
+    "iMessage",
+    "Signal",
+    "Matrix",
+    "LINE",
+    "IRC",
+    "Google Chat",
+    "Microsoft Teams",
+    "Mattermost",
+    "Feishu",
+    "Synology Chat",
+    "Nostr",
+    "Tlon",
+    "Twitch",
+    "Zalo",
+    "Nextcloud Talk",
+    "BlueBubbles",
+];
+---
+
+<section class="px-6 py-16">
+    <div class="mx-auto max-w-5xl">
+        <h2 class="font-heading text-center text-2xl font-bold sm:text-3xl">
+            22+ channels. One gateway.
+        </h2>
+        <div class="mt-10 flex flex-wrap justify-center gap-3">
+            {
+                channels.map((name) => (
+                    <span class="rounded-lg border border-border bg-bg-surface px-3 py-1.5 text-sm text-text-secondary">
+                        {name}
+                    </span>
+                ))
+            }
+        </div>
+    </div>
+</section>
