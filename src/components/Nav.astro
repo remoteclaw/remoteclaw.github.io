@@ -1,5 +1,5 @@
 ---
-import { ExternalLink } from "@lucide/astro";
+import { BookOpen, Github, Download } from "@lucide/astro";
 ---
 
 <nav class="border-b border-border">
@@ -10,25 +10,30 @@ import { ExternalLink } from "@lucide/astro";
                 RemoteClaw
             </span>
         </a>
-        <div class="flex items-center gap-6 text-sm text-text-secondary">
+        <div class="flex items-center gap-4 text-sm text-text-secondary sm:gap-6">
             <a
                 href="https://docs.remoteclaw.org"
                 class="transition-colors hover:text-accent-light"
+                title="Docs"
             >
-                Docs
+                <BookOpen class="h-5 w-5 sm:hidden" />
+                <span class="hidden sm:inline">Docs</span>
             </a>
             <a
                 href="https://github.com/remoteclaw/remoteclaw"
-                class="flex items-center gap-1 transition-colors hover:text-accent-light"
+                class="transition-colors hover:text-accent-light"
+                title="GitHub"
             >
-                GitHub
-                <ExternalLink class="h-3 w-3" />
+                <Github class="h-5 w-5 sm:hidden" />
+                <span class="hidden sm:inline">GitHub</span>
             </a>
             <a
                 href="#install"
                 class="transition-colors hover:text-accent-light"
+                title="Install"
             >
-                Install
+                <Download class="h-5 w-5 sm:hidden" />
+                <span class="hidden sm:inline">Install</span>
             </a>
         </div>
     </div>
