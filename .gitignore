@@ -1,5 +1,17 @@
 ## Project-specific
 *.local.*
+.tmp/
+
+## Origin: https://github.com/github/gitignore/blob/main/Node.gitignore
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+## Astro
+dist/
+.astro/
 
 # Environment variables and secrets
 .env

@@ -1,0 +1,67 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+permissions:
+    contents: read
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: lts/*
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Security audit
+              run: pnpm audit --prod
+
+            - name: Type check
+              run: pnpm check
+              continue-on-error: true
+
+            - name: Build
+              run: pnpm build
+
+    deploy:
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        needs: build
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            pages: write
+            id-token: write
+        concurrency:
+            group: pages
+            cancel-in-progress: true
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: lts/*
+                  cache: pnpm
+
+            - name: Build
+              uses: withastro/action@v3
+
+            - name: Deploy
+              id: deployment
+              uses: actions/deploy-pages@v4
