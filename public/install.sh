@@ -489,56 +489,6 @@ install_node() {
     fi
 }
 
-# --- Git ---
-
-check_git() {
-    if command -v git &> /dev/null; then
-        ui_success "Git already installed"
-        return 0
-    fi
-    ui_info "Git not found, installing it now"
-    return 1
-}
-
-install_git() {
-    if [[ "$OS" == "macos" ]]; then
-        run_quiet_step "Installing Git" brew install git
-    elif [[ "$OS" == "linux" ]]; then
-        require_sudo
-        if command -v apt-get &> /dev/null; then
-            if is_root; then
-                run_quiet_step "Updating package index" apt-get update -qq
-                run_quiet_step "Installing Git" apt-get install -y -qq git
-            else
-                run_quiet_step "Updating package index" sudo apt-get update -qq
-                run_quiet_step "Installing Git" sudo apt-get install -y -qq git
-            fi
-        elif command -v pacman &> /dev/null || is_arch_linux; then
-            if is_root; then
-                run_quiet_step "Installing Git" pacman -Sy --noconfirm git
-            else
-                run_quiet_step "Installing Git" sudo pacman -Sy --noconfirm git
-            fi
-        elif command -v dnf &> /dev/null; then
-            if is_root; then
-                run_quiet_step "Installing Git" dnf install -y -q git
-            else
-                run_quiet_step "Installing Git" sudo dnf install -y -q git
-            fi
-        elif command -v yum &> /dev/null; then
-            if is_root; then
-                run_quiet_step "Installing Git" yum install -y -q git
-            else
-                run_quiet_step "Installing Git" sudo yum install -y -q git
-            fi
-        else
-            ui_error "Could not detect package manager for Git"
-            exit 1
-        fi
-    fi
-    ui_success "Git installed"
-}
-
 # --- npm permissions (Linux) ---
 
 fix_npm_permissions() {
@@ -643,7 +593,7 @@ run_npm_global_install() {
     fi
 
     local -a cmd
-    cmd=(npm --loglevel "$NPM_LOGLEVEL" --no-fund --no-audit install -g "${prefix_args[@]}" "$spec")
+    cmd=(npm --loglevel "$NPM_LOGLEVEL" --no-fund --no-audit install -g ${prefix_args[@]+"${prefix_args[@]}"} "$spec")
     local cmd_display=""
     printf -v cmd_display '%q ' "${cmd[@]}"
     LAST_NPM_INSTALL_CMD="${cmd_display% }"
@@ -943,11 +893,6 @@ main() {
     if [[ "$LOCAL_INSTALL" == "1" ]]; then
         setup_local_path
     else
-        # Git (required for npm installs that may apply patches)
-        if ! check_git; then
-            install_git
-        fi
-
         # npm permissions (Linux)
         fix_npm_permissions
     fi
