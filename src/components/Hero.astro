@@ -118,6 +118,13 @@
 
     let activeTab = "macos-linux";
 
+    const copyIconSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+    const checkIconSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+
+    function setCopyIcon() {
+        heroCopyLabel.innerHTML = copyIconSvg;
+    }
+
     function updateHero() {
         const channel = heroNextToggle.checked ? "next" : "stable";
         const entry = commands[activeTab];
@@ -127,24 +134,26 @@
         heroNextLabel.style.color = heroNextToggle.checked ? "var(--color-accent)" : "";
     }
 
+    function selectTab(tabId: string) {
+        activeTab = tabId;
+        heroTabs.forEach((t) => {
+            t.setAttribute("aria-selected", String((t as HTMLElement).dataset.tab === activeTab));
+        });
+        updateHero();
+    }
+
+    // Auto-detect OS on load
+    if (/Win/.test(navigator.userAgent)) {
+        selectTab("windows");
+    }
+
     heroTabs.forEach((tab) => {
         tab.addEventListener("click", () => {
-            activeTab = (tab as HTMLElement).dataset.tab!;
-            heroTabs.forEach((t) => {
-                t.setAttribute("aria-selected", String((t as HTMLElement).dataset.tab === activeTab));
-            });
-            updateHero();
+            selectTab((tab as HTMLElement).dataset.tab!);
         });
     });
 
     heroNextToggle.addEventListener("change", updateHero);
-
-    const copyIconSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
-    const checkIconSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-
-    function setCopyIcon() {
-        heroCopyLabel.innerHTML = copyIconSvg;
-    }
 
     heroInstall.addEventListener("click", () => {
         const channel = heroNextToggle.checked ? "next" : "stable";
