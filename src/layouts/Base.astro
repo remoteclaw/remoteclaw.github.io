@@ -27,6 +27,9 @@ const {
         <meta property="og:image" content={`${Astro.site}og-image.png`} />
         <meta property="og:url" content={Astro.url.href} />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={`${Astro.site}og-image.png`} />
     </head>
     <body class="min-h-screen antialiased">
         <slot />
